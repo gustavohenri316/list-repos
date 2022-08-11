@@ -6,22 +6,25 @@ import { Container, Content, ListRepos, Repository } from "./styles";
 interface Repo {
   name: string;
   description: string;
+  html_url: string
 }
-interface RepositoriesProps{
-  username: string
+interface RepositoriesProps {
+  username: string;
 }
 
-export function Repositories({username}: RepositoriesProps) {
+export function Repositories({ username }: RepositoriesProps) {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const listUsers = async () => {
-      await fetch(`https://api.github.com/users/${username}/repos`)
+    if(username !== '') {
+      const listUsers = async () => {
+        await fetch(`https://api.github.com/users/${username}/repos`)
         .then((response) => response.json())
         .then((data) => setRepos(data));
-    };
-    listUsers();
+      };
+      listUsers();
+    } 
   }, []);
 
   const filteredRepos =
@@ -46,6 +49,7 @@ export function Repositories({username}: RepositoriesProps) {
                   <Repository>
                     <span key={repo.name}>{repo.name}</span>
                     <p>{repo.description}</p>
+                    <a href={repo.html_url}>Link</a>
                   </Repository>
                 );
               })}
@@ -57,6 +61,7 @@ export function Repositories({username}: RepositoriesProps) {
                   <Repository>
                     <span key={repo.name}>{repo.name}</span>
                     <p>{repo.description}</p>
+                    <a href={repo.html_url} target='_blank'>Open repository on github</a>
                   </Repository>
                 );
               })}

@@ -61,5 +61,9 @@ export const Content = styled.div`
     &:hover {
       filter: brightness(0.9);
     }
+    &:disabled {
+      cursor: not-allowed;
+      filter: brightness(1);
+    }
   }
 `
